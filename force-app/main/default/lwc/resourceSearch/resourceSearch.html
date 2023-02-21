@@ -1,0 +1,44 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+
+            <lightning-layout-item size="2" style="padding-left: 15px;">
+                <template lwc:if={clearanceOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            name="clearance"
+                            label="Clearance"
+                            placeholder="Choose Type"
+                            value={clearanceValue}
+                            options={clearanceOptions} 
+                            onchange={clearanceChange}                                
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {clearanceValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+
+            
+
+            <lightning-layout-item size="12" style="padding: 30px; ">
+                <template lwc:if={opportunities}>
+
+                   <!-- sldsValidatorIgnoreNextLine -->                        
+                    <lightning-datatable
+                        key-field="id"
+                        data={opportunities}
+                        show-row-number-column
+                        row-number-offset={rowOffset}
+                        hide-checkbox-column
+                        columns={columns}>
+                    </lightning-datatable>
+
+                </template>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </lightning-card>
+</template>
