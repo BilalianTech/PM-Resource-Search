@@ -3,7 +3,7 @@
     <lightning-card>
         <lightning-layout multiple-rows="true">
 
-            <lightning-layout-item size="2" style="padding-left: 15px;">
+            <lightning-layout-item style="padding-left: 15px;">
                 <template lwc:if={clearanceOptions}>
                     <div class="slds-var-m-around_medium">
                         <lightning-combobox
@@ -12,34 +12,74 @@
                             placeholder="Choose Type"
                             value={clearanceValue}
                             options={clearanceOptions} 
-                            onchange={clearanceChange}                                
+                            onchange={clearanceChange}   
+                            style="min-width: 200px;"                             
                         >
                         </lightning-combobox>  
                         <p>Selected option: {clearanceValue}</p>                           
                     </div>
                 </template>
             </lightning-layout-item>
+       
 
-        
-
-            <lightning-layout-item size="2" style="padding-left: 15px;">
-                <template lwc:if={clearanceOptions}>
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={certificationOptions}>
                     <div class="slds-var-m-around_medium">
                         <lightning-combobox
                             name="Certification"
                             label="Certification"
                             placeholder="Choose Type"
-                            value={certValue}
-                            options={certOptions} 
-                                                           
+                            value={certificationValue}
+                            options={certificationOptions} 
+                            onchange={certificationChange}               
+                            style="min-width: 400px;"
                         >
                         </lightning-combobox>  
-                        <p>Selected option: {certValue}</p>                           
+                        <p>Selected option: {certificationValue}</p>                           
                     </div>
                 </template>
             </lightning-layout-item>
 
-            <lightning-layout-item size="1" style="padding-left: 15px; padding-top:10px">
+            <!--
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={qualifiedRolesOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            name="qualifiedRoles"
+                            label="Qualifed Role"
+                            placeholder="Choose Type"
+                            value={qualifiedRolesValue}
+                            options={qualifiedRolesOptions} 
+                            onchange={qualifiedRolesChange}               
+                            style="min-width: 400px;"
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {qualifiedRolesValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+            -->
+
+
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={skillsOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            name="skills"
+                            label="Skills"
+                            placeholder="Choose Type"
+                            value={skillsValue}
+                            options={skillsOptions} 
+                            onchange={skillsChange}               
+                            style="min-width: 400px;"
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {skillsValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item style="padding-left: 15px; padding-top:10px">
                 <h2 class="header">Assignment</h2>
                 <lightning-input type="checkbox" 
                                  style="margin-top: 10px; margin-bottom: 5px;" 
@@ -52,11 +92,17 @@
                 <p>Availability: {availabilityValue}</p>
             </lightning-layout-item>
 
-            <lightning-layout-item size="8" style="padding-left: 23px; padding-top: 10px">
+            <lightning-layout-item size="12" style="padding-left: 23px; padding-top: 10px">
                 <lightning-button id="enterBtn"
                     label="ENTER"
                     >
                 </lightning-button>
+                <lightning-button id="clearBtn" style="padding-left: 10px"
+                    label="CLEAR"
+                    onclick={clearSearchClicked}
+                >
+                </lightning-button>
+
             </lightning-layout-item>
             
 
