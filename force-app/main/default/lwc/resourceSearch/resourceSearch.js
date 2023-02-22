@@ -11,6 +11,10 @@ export default class ResourceSearch extends LightningElement
     @api searchJSON;    
     rowOffset = 0;
     clearanceValue = "";
+    startDateValue = "";
+    endDateValue = "";
+    certValue="";
+    availabilityValue=true;
 
     //Set Clearance============================================================
     clearanceOptions = [
@@ -40,6 +44,21 @@ export default class ResourceSearch extends LightningElement
         this.clearanceValue = event.detail.value;
     }
 
+    startDateChange(event)
+    {
+        this.startDateValue = event.detail.value;
+    }
+
+    endDateChange(event)
+    {
+        this.endDateValue = event.detail.value;
+    }
+
+    availabilityChange(event)
+    {
+        this.availabilityValue = event.target.checked;
+        console.log("avail:" + this.availabilityValue);
+    }
 
     //#########################################################################
 }

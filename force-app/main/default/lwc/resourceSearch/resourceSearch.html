@@ -20,7 +20,67 @@
                 </template>
             </lightning-layout-item>
 
+            <lightning-layout-item size="2" style="padding-left: 15px;">
+                <template lwc:if={clearanceOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-input type="date"
+                                         name="startDate" 
+                                         label="Enter Start Date"
+                                         onchange={startDateChange} ></lightning-input>            
+                        <p>Start Date: {startDateValue}</p>
+                    </div>
+                </template>
+            </lightning-layout-item>
 
+            <lightning-layout-item size="2" style="padding-left: 15px;">
+                <template lwc:if={clearanceOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-input type="date" 
+                                         name="endDate" 
+                                         label="Enter End Date" 
+                                         onchange={endDateChange}
+                                         ></lightning-input>            
+                        <p>End Date: {endDateValue}</p>
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="2" style="padding-left: 15px;">
+                <template lwc:if={clearanceOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            name="Certification"
+                            label="Certification"
+                            placeholder="Choose Type"
+                            value={certValue}
+                            options={certOptions} 
+                                                           
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {certValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="1" style="padding-left: 15px; padding-top:10px">
+                <h2 class="header">Assignment</h2>
+                <lightning-input type="checkbox" 
+                                 style="margin-top: 10px; margin-bottom: 5px;" 
+                                 label="Availability Only" 
+                                 name="Availability Only"
+                                 checked
+                                 value={availabilityValue}
+                                 onchange={availabilityChange}
+                                 ></lightning-input>
+                <p>Availability: {availabilityValue}</p>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="8" style="padding-left: 23px; padding-top: 10px">
+                <lightning-button id="enterBtn"
+                    label="ENTER"
+                    >
+                </lightning-button>
+            </lightning-layout-item>
             
 
             <lightning-layout-item size="12" style="padding: 30px; ">
