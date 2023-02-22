@@ -13,13 +13,14 @@ export default class ResourceSearch extends LightningElement
     @api searchJSON;    
     rowOffset = 0;
     clearanceValue = "";   
-    certificationValue="";
-    qualifiedRolesValue="";
+    certificationValue="";    
     skillsValue="";
-    availabilityValue=true;
-    certificationOptions;
-    qualifiedRolesOptions;
+    
+    certificationOptions;    
     skillsOptions;
+    availabilityValue=true;
+
+    //qualifiedRolesOptions; qualifiedRolesValue="";
 
     //Set Clearance============================================================
     clearanceOptions = [
@@ -169,8 +170,21 @@ export default class ResourceSearch extends LightningElement
     
     //Clear Search=============================================================
     clearSearchClicked()
-    {
+    {   
+        console.log('Clear Start');
+        this.template.querySelector("lightning-input[data-in-id=availableCKB]").checked = true;
+        this.availabilityValue=true;
+               
+        this.template.querySelector("lightning-combobox[data-in-id=clearanceCMB]").value = "";
+        this.template.querySelector("lightning-combobox[data-in-id=certificationCMB]").value = "";
+        this.template.querySelector("lightning-combobox[data-in-id=skillsCMB]").value = "";
 
+        this.clearanceValue = "";   
+        this.certificationValue="";    
+        this.skillsValue="";
+
+        console.log('Clear End');
+       
     }
 
 
