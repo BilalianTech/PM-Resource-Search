@@ -8,7 +8,7 @@ FROM Project_Assignment__c WHERE Name='PA2021_00571'
 
 
 SELECT Name, Capability_CGS__c, Career_Track_CGS__c, CompanyName, Username
-FROM User where Name = 'Bilal Shabazz'
+FROM User WHERE Name = 'Bilal Shabazz'
 
 SELECT Name, Certification_Name__c, Certified_Individual__c
 FROM CGS_Employee_Certification__c
