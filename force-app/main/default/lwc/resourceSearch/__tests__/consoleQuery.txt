@@ -1,0 +1,43 @@
+SELECT Account__c, Name, FTE__c, Resource__c, Skill_Set_Concentrations__c, Certifications__c 
+FROM Project_Assignment__c
+
+SELECT Account__c, Name, Resource__c, Skill_Set_Concentrations__c, Certifications__c 
+FROM Project_Assignment__c WHERE Name='PA2021_00571'
+
+//============================================================================
+
+
+SELECT Name, Capability_CGS__c, Career_Track_CGS__c, CompanyName, Username
+FROM User where Name = 'Bilal Shabazz'
+
+SELECT Name, Certification_Name__c, Certified_Individual__c
+FROM CGS_Employee_Certification__c
+
+//============================================================================
+SELECT Name, 
+( 
+    SELECT Name, Certified_Individual__c, Certification_Name__c 
+    FROM My_Certifications__r WHERE Name != NULL
+) 
+FROM Work_Info__c
+
+//=============================================================================
+SELECT Name, 
+(
+    SELECT Name, Certified_Individual__c, Certification_Name__c 
+    FROM My_Certifications__r 
+    WHERE Certification_Name__c = 'Lightning Implementation Specialist'
+) 
+FROM Work_Info__c
+
+//=============================================================================
+SELECT Name, Skilled_Individual__c, Concentration__c FROM Employee_Skills__c 
+
+//=============================================================================
+SELECT Name, 
+(
+   SELECT Name, Skilled_Individual__c, Concentration__c 
+   FROM My_Skills__r 
+   WHERE Concentration__c = 'JavaScript'
+) 
+FROM Work_Info__c

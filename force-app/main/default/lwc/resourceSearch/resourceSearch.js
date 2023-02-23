@@ -183,8 +183,7 @@ export default class ResourceSearch extends LightningElement
         this.certificationValue="";    
         this.skillsValue="";
 
-        console.log('Clear End');
-       
+        console.log('Clear End');       
     }
 
 
