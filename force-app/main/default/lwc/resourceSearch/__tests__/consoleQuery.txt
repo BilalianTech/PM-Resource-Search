@@ -5,6 +5,15 @@ SELECT Account__c, Name, Resource__c, Skill_Set_Concentrations__c, Certification
 FROM Project_Assignment__c WHERE Name='PA2021_00571'
 
 //============================================================================
+SELECT Name, Email__c , Availability_Status__c, Available_for_Assignment__c,
+(
+   SELECT Name , Certifications__c , Skill_Set_Concentrations__c
+   FROM Project_Assignments_CGS__r 
+   
+) 
+FROM Work_Info__c 
+
+//============================================================================
 
 
 SELECT Name, Capability_CGS__c, Career_Track_CGS__c, CompanyName, Username

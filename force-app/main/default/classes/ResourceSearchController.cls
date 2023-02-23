@@ -1,12 +1,15 @@
 public with sharing class ResourceSearchController 
 {
     @AuraEnabled
-    public static List<WorkInfo> getResources()
+    public static List<Work_Info__c> getResources()
     {
         try 
         {
             //Main Var-------------------------------------------------------
-            List<Opportunity> currentOpps = new List<Opportunity>();
+            List<Work_Info__c> currentWorkInfo = new List<Work_Info__c>();
+
+
+            
             String selectStr;
             String whereParts;
             
