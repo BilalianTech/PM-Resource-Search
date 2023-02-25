@@ -50,3 +50,14 @@ SELECT Name,
    WHERE Concentration__c = 'JavaScript'
 ) 
 FROM Work_Info__c
+
+//=============================================================================
+SELECT Name, Id from Work_Info__C 
+WHERE ID IN (
+    SELECT Certified_Individual__c 
+    FROM CGS_Employee_Certification__c 
+    where Certification_Name__c ='Salesforce Certified Administrator' ) 
+AND ID IN (
+    SELECT Skilled_Individual__c 
+    FROM Employee_Skills__c 
+    WHERE Concentration__c = 'Salesforce Apex Class Development')

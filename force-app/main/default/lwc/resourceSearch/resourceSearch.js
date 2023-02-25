@@ -5,20 +5,20 @@ import CERTIFICATION_FIELD from '@salesforce/schema/Project_Assignment__c.Certif
 //import QUALIFIED_ROLES_FIELD from '@salesforce/schema/Work_Info__c.Qualified_Role_s__c';
 import SKILL_SET_FIELD from '@salesforce/schema/Project_Assignment__c.Skill_Set_Concentrations__c';
 
-//import getResources from '@salesforce/apex/ResourceSearchController.getResources';
+import getResources from '@salesforce/apex/ResourceSearchController.getResources';
 
 export default class ResourceSearch extends LightningElement 
 {
     //MAIN VAR=================================================================
-    @api searchJSON;    
+    @api resourceSearchJSON;    
     rowOffset = 0;
     clearanceValue = "";   
     certificationValue="";    
     skillsValue="";
+    availabilityValue = true;
     
     certificationOptions;    
     skillsOptions;
-    availabilityValue=true;
 
     //qualifiedRolesOptions; qualifiedRolesValue="";
 
@@ -186,6 +186,35 @@ export default class ResourceSearch extends LightningElement
         console.log('Clear End');       
     }
 
+    //Send Search Object To Controller=========================================
+    enterRS_Clicked(event)
+    {
+        this.resourceSearchJSON = 
+        {
+            clearanceStr: this.clearanceValue,   
+            certificationStr: this.certificationValue,    
+            skillsStr: this.skillsValue,
+            availableBool: this.availabilityValue
+        };
+
+        console.log('Search : clearance = ' + 
+        this.resourceSearchJSON.clearanceStr +
+        ' certification = ' + this.resourceSearchJSON.certificationStr +
+        ' skills = ' + this.resourceSearchJSON.skillsStr + 
+        ' availability = ' + this.resourceSearchJSON.availableBool        
+        );
+
+        //Call Controller============================================
+        getResources({ searchObjStr: JSON.stringify(this.resourceSearchJSON)})
+        .then( result => {
+            console.log('Result: ' + JSON.stringify( result));
+        })
+        .catch((error)=>{
+            this.error = error;
+            console.log('Error: ' + this.error);
+        });
+
+    }
 
     //#########################################################################
 }
