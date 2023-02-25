@@ -1,13 +1,16 @@
 public with sharing class ResourceSearchController 
 {
     @AuraEnabled
-    public static String getResources(string searchObjStr)
+    public static List<sObject> getResources(string searchObjStr)
     {
         try 
         {
             /*List<sObject>*/
             //Main Var-------------------------------------------------------
             String selectStr;
+            selectStr = 'SELECT Name, Email__c , Availability_Status__c, Available_for_Assignment__c ';
+
+
             String whereParts;
 
             //Parse Object---------------------------------------------------
@@ -15,9 +18,7 @@ public with sharing class ResourceSearchController
             Boolean availableBool = resourceSearchObj.availableBool;
             String clearanceStr = resourceSearchObj.clearanceStr;
             String certificationStr = resourceSearchObj.certificationStr;
-            String skillsStr = resourceSearchObj.skillsStr;
-
-            
+            String skillsStr = resourceSearchObj.skillsStr;            
             
             if(availableBool == true)
             {                
@@ -25,6 +26,9 @@ public with sharing class ResourceSearchController
                 if((clearanceStr != '') && (certificationStr != '') && (skillsStr != ''))
                 {
                     selectStr = 'Available clearanceStr certificationStr skills';
+
+
+
                 }
                 else if((clearanceStr != '') && (skillsStr != ''))
                 {
@@ -40,11 +44,26 @@ public with sharing class ResourceSearchController
                 }
                 else if(skillsStr != '')
                 {
-                    selectStr = 'Available skillsStr';
+                    //Available skillsStr
+                    selectStr = selectStr + ',( SELECT Name,'+
+                    ' Skilled_Individual__c, Concentration__c FROM My_Skills__r'+
+                    ' WHERE Concentration__c = :skillsStr)'+ 
+                    ' FROM Work_Info__c WHERE Available_for_Assignment__c = true'+
+                    ' And ID IN( SELECT Skilled_Individual__c FROM Employee_Skills__c' +
+                    ' WHERE Concentration__c =  :skillsStr )';
                 }
                 else if(certificationStr != '')
                 {
-                    selectStr = 'Available certificationStr';
+                    //'Available certificationStr';
+                    selectStr = selectStr + ',( SELECT Name,'+
+                    ' Skilled_Individual__c, Concentration__c FROM My_Skills__r'+
+                    ' WHERE Concentration__c = :skillsStr)'+ 
+                    ' FROM Work_Info__c WHERE Available_for_Assignment__c = true'+
+                    ' And ID IN( SELECT Skilled_Individual__c FROM Employee_Skills__c' +
+                    ' WHERE Concentration__c =  :skillsStr )';
+
+
+
                 }
                 else if(clearanceStr != '')
                 {
@@ -52,7 +71,8 @@ public with sharing class ResourceSearchController
                 }
                 else 
                 {
-                    selectStr = 'Available Only';
+                    //Available Only;
+                    selectStr = selectStr + ' FROM Work_Info__c WHERE Available_for_Assignment__c = true';
                 }
             }
             else 
@@ -93,11 +113,11 @@ public with sharing class ResourceSearchController
             }
             
             //Select Query-----------------------------------------------------
-            //selectStr = 'SELECT Name, Email__c, FROM Work_Info__c ' + whereParts;
+            //selectStr = 'SELECT Name, Email__c , Availability_Status__c, Available_for_Assignment__c ' + whereParts;
 
-           // List<sObject> cWorkInfoList = Database.query(selectStr);
+            List<sObject> cWorkInfoList = Database.query(selectStr);
             //return cWorkInfoList;
-            return selectStr;
+            return cWorkInfoList;
             
         } 
         catch (Exception e) 

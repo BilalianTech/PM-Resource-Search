@@ -112,12 +112,12 @@
             
 
             <lightning-layout-item size="12" style="padding: 30px; ">
-                <template lwc:if={opportunities}>
+                <template lwc:if={returnedResources}>
 
                    <!-- sldsValidatorIgnoreNextLine -->                        
                     <lightning-datatable
                         key-field="id"
-                        data={opportunities}
+                        data={returnedResources}
                         show-row-number-column
                         row-number-offset={rowOffset}
                         hide-checkbox-column

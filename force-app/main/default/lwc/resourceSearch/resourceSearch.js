@@ -20,7 +20,20 @@ export default class ResourceSearch extends LightningElement
     certificationOptions;    
     skillsOptions;
 
+    returnedResources;
+
+
     //qualifiedRolesOptions; qualifiedRolesValue="";
+    //TABLE COLUMS=============================================================
+    columns = [
+        { label: 'NAME', fieldName: 'Name' },
+        { label: 'EMAIL', fieldName: 'Email' , type: 'email'},
+        { label: 'AVAILABLE', fieldName: 'Available' },  
+        { label: 'CLEARANCE', fieldName: 'Clearance' }, 
+        { label: 'CERTIFICATION', fieldName: 'Certification' },
+        { label: 'SKILLS', fieldName: 'Skills' },    
+    ];
+
 
     //Set Clearance============================================================
     clearanceOptions = [
@@ -206,8 +219,40 @@ export default class ResourceSearch extends LightningElement
 
         //Call Controller============================================
         getResources({ searchObjStr: JSON.stringify(this.resourceSearchJSON)})
-        .then( result => {
+        .then( result => 
+        {
+            let curWorkInfoObjArr = [];
+            let skillsGroup;
+
+            for(let cResult of result)
+            {
+                //Get Skills---------------------------------------------------
+                skillsGroup = "";
+                if(cResult.My_Skills__r != null)
+                {
+                    for(let cSkill of cResult.My_Skills__r)
+                    {
+                        skillsGroup = skillsGroup + cSkill.Concentration__c + " ";
+                    }
+                }
+                
+
+
+                curWorkInfoObjArr.push({
+                    "Name" : cResult.Name,
+                    "Email" : cResult.Email__c,
+                    "Available" : cResult.Available_for_Assignment__c,
+                    "Skills" : skillsGroup,
+                    "Certification" : null,
+                    "Clearance": null
+                });
+            }
+
+            this.returnedResources = curWorkInfoObjArr;
+            this.error = undefined;
+
             console.log('Result: ' + JSON.stringify( result));
+
         })
         .catch((error)=>{
             this.error = error;
