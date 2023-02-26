@@ -108,6 +108,10 @@
                 >
                 </lightning-button>
 
+                <div if:true={isLoadingResources} class="slds-is-relative">
+                    <lightning-spinner variant="brand" size="small"> </lightning-spinner>
+                </div>
+
             </lightning-layout-item>
             
 

@@ -2,9 +2,7 @@ import { LightningElement, api, wire, track } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import CERTIFICATION_FIELD from '@salesforce/schema/Project_Assignment__c.Certifications__c';
-//import QUALIFIED_ROLES_FIELD from '@salesforce/schema/Work_Info__c.Qualified_Role_s__c';
 import SKILL_SET_FIELD from '@salesforce/schema/Project_Assignment__c.Skill_Set_Concentrations__c';
-
 import getResources from '@salesforce/apex/ResourceSearchController.getResources';
 
 export default class ResourceSearch extends LightningElement 
@@ -22,17 +20,14 @@ export default class ResourceSearch extends LightningElement
     skillsOptions;
 
     returnedResources;
-
-
-    //qualifiedRolesOptions; qualifiedRolesValue="";
+    isLoadingResources = false;
+    
     //TABLE COLUMS=============================================================
     columns = [
         { label: 'NAME', fieldName: 'Name' },
         { label: 'EMAIL', fieldName: 'Email' , type: 'email'},
-        { label: 'AVAILABLE', fieldName: 'Available' },  
-        
+        { label: 'AVAILABLE', fieldName: 'Available' },
     ];
-
 
     //Set Clearance============================================================
     clearanceOptions = [
@@ -85,39 +80,7 @@ export default class ResourceSearch extends LightningElement
             this.certificationOptions = undefined;
         }
     }
-
-    //PICKLISTVALUES====================================================
-    /*
-    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: QUALIFIED_ROLES_FIELD })    
-    qualifiedRolePicklistValue({ error, data })
-    {
-        //Get data from Picklist----------------------------------------------
-        if(data)
-        {
-            //Vars------------------------------------------------------------
-            let qualifiedRoleHolder = [];
-            const qualifiedRoleArr = data.values;
-
-            //Add Null Search Value--------------------------------------------
-            qualifiedRoleHolder.push({'label' : '--ANY--', 'value' : ''});
-
-            //Get label and values---------------------------------------------
-            for(let x of qualifiedRoleArr)
-            {
-                qualifiedRoleHolder.push({'label' : x.label, 'value' : x.value});                
-            }
-            
-            this.qualifiedRolesOptions = qualifiedRoleHolder; 
-            this.error = undefined;
-        }
-        else if(error)
-        {
-            this.error = error;
-            this.qualifiedRolesOptions = undefined;
-        }
-    }
-    */
-
+    
     //PICKLISTVALUES====================================================
     @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: SKILL_SET_FIELD })    
     skillsPicklistValue({ error, data })
@@ -159,13 +122,6 @@ export default class ResourceSearch extends LightningElement
     {
         this.certificationValue = event.detail.value;
     }
-
-    /*
-    //Qualified Roles Value Changed===========================================
-    qualifiedRolesChange(event)
-    {
-        this.qualifiedRolesValue = event.detail.value;
-    }*/
 
     //Skills Value Changed====================================================
     skillsChange(event)
@@ -216,12 +172,14 @@ export default class ResourceSearch extends LightningElement
         ' availability = ' + this.resourceSearchJSON.availableBool        
         );
 
-        //Call Controller============================================
+        //Show Spinner=========================================================
+        this.isLoadingResources = true;
+
+        //Call Controller======================================================
         getResources({ searchObjStr: JSON.stringify(this.resourceSearchJSON)})
         .then( result => 
         {
             let curWorkInfoObjArr = [];
-            let skillsGroup;
 
             for(let cResult of result)
             {
@@ -236,9 +194,11 @@ export default class ResourceSearch extends LightningElement
             this.error = undefined;
             this.recordCount = curWorkInfoObjArr.length;
             console.log('Result: ' + JSON.stringify( result));
+            this.isLoadingResources = false;
 
         })
         .catch((error)=>{
+            this.isLoadingResources = false;
             this.error = error;
             console.log('Error: ' + this.error);
         });
