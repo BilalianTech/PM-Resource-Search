@@ -16,6 +16,7 @@ export default class ResourceSearch extends LightningElement
     certificationValue="";    
     skillsValue="";
     availabilityValue = true;
+    recordCount = 0;
     
     certificationOptions;    
     skillsOptions;
@@ -29,9 +30,7 @@ export default class ResourceSearch extends LightningElement
         { label: 'NAME', fieldName: 'Name' },
         { label: 'EMAIL', fieldName: 'Email' , type: 'email'},
         { label: 'AVAILABLE', fieldName: 'Available' },  
-        { label: 'CLEARANCE', fieldName: 'Clearance' }, 
-        { label: 'CERTIFICATION', fieldName: 'Certification' },
-        { label: 'SKILLS', fieldName: 'Skills' },    
+        
     ];
 
 
@@ -226,31 +225,16 @@ export default class ResourceSearch extends LightningElement
 
             for(let cResult of result)
             {
-                //Get Skills---------------------------------------------------
-                skillsGroup = "";
-                if(cResult.My_Skills__r != null)
-                {
-                    for(let cSkill of cResult.My_Skills__r)
-                    {
-                        skillsGroup = skillsGroup + cSkill.Concentration__c + " ";
-                    }
-                }
-                
-
-
                 curWorkInfoObjArr.push({
                     "Name" : cResult.Name,
                     "Email" : cResult.Email__c,
-                    "Available" : cResult.Available_for_Assignment__c,
-                    "Skills" : skillsGroup,
-                    "Certification" : null,
-                    "Clearance": null
+                    "Available" : cResult.Available_for_Assignment__c                    
                 });
             }
 
             this.returnedResources = curWorkInfoObjArr;
             this.error = undefined;
-
+            this.recordCount = curWorkInfoObjArr.length;
             console.log('Result: ' + JSON.stringify( result));
 
         })

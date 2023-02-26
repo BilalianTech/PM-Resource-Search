@@ -61,3 +61,47 @@ AND ID IN (
     SELECT Skilled_Individual__c 
     FROM Employee_Skills__c 
     WHERE Concentration__c = 'Salesforce Apex Class Development')
+
+//==============================================================================
+SELECT Name, Id,
+(
+   SELECT Name, Skilled_Individual__c, Concentration__c 
+   FROM My_Skills__r 
+   WHERE Concentration__c = 'JavaScript'
+)
+ 
+FROM Work_Info__C 
+
+WHERE ID IN (
+    SELECT Skilled_Individual__c 
+    FROM Employee_Skills__c 
+    where Concentration__c = 'JavaScript' ) 
+
+AND Available_for_Assignment__c = true
+
+//=============================================================================
+SELECT Name, Id,
+(
+   SELECT Name, Skilled_Individual__c, Concentration__c 
+   FROM My_Skills__r 
+   WHERE Concentration__c = 'JavaScript'
+),
+(
+   SELECT Certified_Individual__c,Name, Certification_Name__c 
+   FROM My_Certifications__r 
+   WHERE Certification_Name__c = 'Salesforce Certified Administrator'
+) 
+
+FROM Work_Info__C 
+
+WHERE ID IN (
+    SELECT Skilled_Individual__c 
+    FROM Employee_Skills__c 
+    where Concentration__c = 'JavaScript' ) 
+
+AND Available_for_Assignment__c = true
+
+AND ID IN (
+    SELECT Certified_Individual__c 
+    FROM CGS_Employee_Certification__c 
+    where Certification_Name__c ='Salesforce Certified Administrator')
