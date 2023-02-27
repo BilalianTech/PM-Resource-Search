@@ -233,7 +233,7 @@ public with sharing class ResourceSearchController
                 when else 
                 {
                     //No Match --ANY-- Set Default FROM------------------------
-                    rResourceStr =  rResourceStr + ' FROM Work_Info__c ';
+                    rResourceStr =  rResourceStr + ' ,GSA__c FROM Work_Info__c ';
                     whereIn = 0;
                 }
                 

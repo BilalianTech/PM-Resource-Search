@@ -27,6 +27,7 @@ export default class ResourceSearch extends LightningElement
         { label: 'NAME', fieldName: 'Name' },
         { label: 'EMAIL', fieldName: 'Email' , type: 'email'},
         { label: 'AVAILABLE', fieldName: 'Available' },
+        { label: 'CLEARANCE', fieldName: 'Clearance' },
     ];
 
     //Set Clearance============================================================
@@ -180,22 +181,36 @@ export default class ResourceSearch extends LightningElement
         .then( result => 
         {
             let curWorkInfoObjArr = [];
+            let curClearanceTxt;
+
+            //Check Clearance Value--------------------------------------------
+            if(this.clearanceValue == '')
+            {
+                curClearanceTxt = 'GSA'
+            }
+            else
+            {
+                curClearanceTxt = this.clearanceValue;
+            }
+
+            //SetUp Clearance--------------------------------------------------
+            const clearanceC = curClearanceTxt +"__c";
 
             for(let cResult of result)
             {
                 curWorkInfoObjArr.push({
                     "Name" : cResult.Name,
                     "Email" : cResult.Email__c,
-                    "Available" : cResult.Available_for_Assignment__c                    
-                });
+                    "Available" : cResult.Available_for_Assignment__c, 
+                    "Clearance" : curClearanceTxt + " : " + cResult[clearanceC]           
+                });                
             }
 
             this.returnedResources = curWorkInfoObjArr;
             this.error = undefined;
             this.recordCount = curWorkInfoObjArr.length;
-            console.log('Result: ' + JSON.stringify( result));
+            console.log('Result: ' + JSON.stringify(result));
             this.isLoadingResources = false;
-
         })
         .catch((error)=>{
             this.isLoadingResources = false;
