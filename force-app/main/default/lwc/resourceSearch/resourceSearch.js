@@ -24,7 +24,9 @@ export default class ResourceSearch extends LightningElement
     
     //TABLE COLUMS=============================================================
     columns = [
-        { label: 'NAME', fieldName: 'Name' },
+        { label: 'NAME', fieldName: 'NameUrl', type: 'url', 
+          typeAttributes: {label: {fieldName: 'Name'}, target: '_blank'}
+        },
         { label: 'EMAIL', fieldName: 'Email' , type: 'email'},
         { label: 'AVAILABLE', fieldName: 'Available' },
         { label: 'CLEARANCE', fieldName: 'Clearance' },
@@ -200,6 +202,7 @@ export default class ResourceSearch extends LightningElement
             {
                 curWorkInfoObjArr.push({
                     "Name" : cResult.Name,
+                    "NameUrl": "/lightning/r/"+ cResult.Id + "/view" ,
                     "Email" : cResult.Email__c,
                     "Available" : cResult.Available_for_Assignment__c, 
                     "Clearance" : curClearanceTxt + " : " + cResult[clearanceC]           

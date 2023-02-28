@@ -232,7 +232,7 @@ public with sharing class ResourceSearchController
                 }
                 when else 
                 {
-                    //No Match --ANY-- Set Default FROM------------------------
+                    //No Match GSA Set Default FROM------------------------
                     rResourceStr =  rResourceStr + ' ,GSA__c FROM Work_Info__c ';
                     whereIn = 0;
                 }
@@ -251,7 +251,8 @@ public with sharing class ResourceSearchController
                 else 
                 {
                     rResourceStr =  rResourceStr + ' AND ';
-                }                
+                }   
+                             
                 rResourceStr =  rResourceStr + 'ID IN ( SELECT Certified_Individual__c FROM CGS_Employee_Certification__c where Certification_Name__c = :certName)';
             }
 
