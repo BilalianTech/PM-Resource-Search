@@ -1,26 +1,124 @@
 <template>
-    <lightning-layout-item size="2" style="padding-left: 15px;">
-        <template lwc:if={clearanceOptions}>
-            <div class="slds-var-m-around_medium">
-                <lightning-input type="date"
-                                 name="startDate" 
-                                 label="Enter Start Date"
-                                 onchange={startDateChange} ></lightning-input>            
-                <p>Start Date: {startDateValue}</p>
-            </div>
-        </template>
-    </lightning-layout-item>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
 
-    <lightning-layout-item size="2" style="padding-left: 15px;">
-        <template lwc:if={clearanceOptions}>
-            <div class="slds-var-m-around_medium">
-                <lightning-input type="date" 
-                                 name="endDate" 
-                                 label="Enter End Date" 
-                                 onchange={endDateChange}
-                                 ></lightning-input>            
-                <p>End Date: {endDateValue}</p>
-            </div>
-        </template>
-    </lightning-layout-item>
+            <!--ROLES-->
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={roleOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            data-in-id="roleCMB"
+                            name="role"
+                            label="Role"
+                            placeholder="Choose Type"
+                            value={roleValue}
+                            options={roleOptions} 
+                            onchange={roleChange}               
+                            style="min-width: 400px;"
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {roleValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+            
+            <!--CERTIFICATION-->
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={certificationOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            data-in-id="certificationCMB"
+                            name="Certification"
+                            label="Certification"
+                            placeholder="Choose Type"
+                            value={certificationValue}
+                            options={certificationOptions} 
+                            onchange={certificationChange}               
+                            style="min-width: 400px;"
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {certificationValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+            
+
+            <!--CLEARANCE-->
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={clearanceOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-combobox
+                            data-in-id="clearanceCMB"
+                            name="clearance"
+                            label="Clearance"
+                            placeholder="Choose Type"
+                            value={clearanceValue}
+                            options={clearanceOptions} 
+                            onchange={clearanceChange}   
+                            style="min-width: 200px;"                             
+                        >
+                        </lightning-combobox>  
+                        <p>Selected option: {clearanceValue}</p>                           
+                    </div>
+                </template>
+            </lightning-layout-item>
+    
+            <!--START DATE-->
+            <lightning-layout-item style="padding-left: 15px;">
+                <template lwc:if={clearanceOptions}>
+                    <div class="slds-var-m-around_medium">
+                        <lightning-input type="date"
+                                        data-in-id="startDatePKR"
+                                        name="startDate" 
+                                        label="Enter Start Date"
+                                        onchange={startDateChange} ></lightning-input>            
+                        <p>Start Date: {startDateValue}</p>
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+
+            <!--ENTER CLEAR BTNS-->
+            <lightning-layout-item size="12" style="padding-left: 23px; padding-top: 10px">
+                <lightning-button id="enterBtn"
+                    label="ENTER"
+                    onclick={enterRS_Clicked}
+                    >
+                </lightning-button>
+                <lightning-button id="clearBtn" style="padding-left: 10px"
+                    label="CLEAR"
+                    onclick={clearSearchClicked}
+                >
+                </lightning-button>
+
+                <div if:true={isLoadingResources} class="slds-is-relative">
+                    <lightning-spinner variant="brand" size="small"> </lightning-spinner>
+                </div>
+
+            </lightning-layout-item>
+            
+            <!--DATA TABLE-->
+            <lightning-layout-item size="12" style="padding: 30px; ">
+                <template lwc:if={rProjectAssignment}>
+                    <span>Records {recordCount}</span>
+
+                    <!-- sldsValidatorIgnoreNextLine -->                        
+                    <lightning-datatable
+                        key-field="id"
+                        data={rProjectAssignment}
+                        show-row-number-column
+                        row-number-offset={rowOffset}
+                        hide-checkbox-column
+                        columns={columns}>
+                    </lightning-datatable>
+
+                </template>
+            </lightning-layout-item>
+
+
+
+        </lightning-layout>
+    </lightning-card>
+
 </template>
