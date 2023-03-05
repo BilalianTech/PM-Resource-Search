@@ -3,58 +3,36 @@ import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import CERTIFICATION_FIELD from '@salesforce/schema/Project_Assignment__c.Certifications__c';
 import ROLES_FIELD from '@salesforce/schema/Project_Assignment__c.Project_Role__c';
-//import getProjectAssignments from '@salesforce/apex/ProjectSearchController.getProjectAssignments';
-
+import CLEARANCE_AUTHORITY_FIELD from '@salesforce/schema/Project_Assignment__c.Clearance_Authority__c';
+import getAssignments from '@salesforce/apex/AssignmentSearchController.getAssignments';
 
 export default class ProjectSearch extends LightningElement 
 {
     //MAIN VAR=================================================================
-    @api projectSearchJSON;    
+    @api assignmentSearchJSON;    
     rowOffset = 0;
     clearanceValue = "";   
     certificationValue="";    
     roleValue="";
-    startDateValue="";
-    openAssignmentValue = true;
-    recordCount = 0;
+    startDateValue="";    
     
     certificationOptions;    
     roleOptions;
+    clearanceOptions;
 
-    returnedProjects;
-    isLoadingProjects = false;
+    returnedAssignments;
+    isLoadingAssignments = false;
+    recordCount = 0;
 
     //TABLE COLUMS=============================================================
     columns = [
-        { label: 'ASSIGNMENT #', fieldName: 'assignmentUrl', type: 'url', 
+        { label: 'ASSIGNMENT #', fieldName: 'AssignmentUrl', type: 'url', 
           typeAttributes: {label: {fieldName: 'AssignmentName'}, target: '_blank'}
         },
         { label: 'PROJECT NAME', fieldName: 'ProjectName' },
         { label: 'ROLE', fieldName: 'Role' },
         { label: 'START', fieldName: 'StartDate' },
         { label: 'MANAGER', fieldName: 'Manager' },
-    ];
-
-    //Set Clearance============================================================
-    clearanceOptions = [
-        {'label' : '--ANY--', 'value' : ''},
-        {'label' : 'CFPB', 'value' : 'CFPB'},
-        {'label' : 'DHS', 'value' : 'DHS'},
-        {'label' : 'DOC', 'value' : 'DOC'},
-        {'label' : 'DOD', 'value' : 'DOD'},
-        {'label' : 'DOE', 'value' : 'DOE'},
-        {'label' : 'DOJ', 'value' : 'DOJ'},
-        {'label' : 'FDA', 'value' : 'FDA'},
-        {'label' : 'FDIC', 'value' : 'FDIC'},
-        {'label' : 'GSA', 'value' : 'GSA'},
-        {'label' : 'HHS', 'value' : 'HHS'},
-        {'label' : 'IRS', 'value' : 'IRS'},
-        {'label' : 'NARA', 'value' : 'NARA'},
-        {'label' : 'SBA', 'value' : 'SBA'},
-        {'label' : 'SEC', 'value' : 'SEC'},
-        {'label' : 'USAGM', 'value' : 'USAGM'},
-        {'label' : 'USDA', 'value' : 'USDA'},
-        {'label' : 'VA', 'value' : 'VA'},
     ];
 
     //PICKLISTVALUES====================================================
@@ -117,6 +95,36 @@ export default class ProjectSearch extends LightningElement
         }
     }
 
+    //PICKLISTVALUES====================================================
+    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: CLEARANCE_AUTHORITY_FIELD })    
+    clearancePicklistValue({ error, data })
+    {
+        //Get data from Picklist----------------------------------------------
+        if(data)
+        {
+            //Vars------------------------------------------------------------
+            let clearHolder = [];
+            const clearArr = data.values;
+
+            //Add Null Search Value--------------------------------------------
+            clearHolder.push({'label' : '--ANY--', 'value' : ''});
+
+            //Get label and values---------------------------------------------
+            for(let x of clearArr)
+            {
+                clearHolder.push({'label' : x.label, 'value' : x.value});                
+            }
+            
+            this.clearanceOptions = clearHolder; 
+            this.error = undefined;
+        }
+        else if(error)
+        {
+            this.error = error;
+            this.roleOptions = undefined;
+        }
+    }
+
     //Clearance Value Changed===========================================
     clearanceChange(event)
     {
@@ -135,37 +143,97 @@ export default class ProjectSearch extends LightningElement
         this.roleValue = event.detail.value;
     }
 
-    //Start Date Value Changed===========================================
+    //Start Date Value Changed=================================================
     startDateChange(event)
     {
-        this.startDateValue = event.detail.value;
-    }
+        //Set Correct Format 01/12/2023----------------------------------------
+        let eDate = event.detail.value;
+        let dateArr = eDate.split("-");
+        let fDateStr = dateArr[1] + "/" + dateArr[2] + "/" + dateArr[0];
+        console.log(fDateStr);
 
+        this.startDateValue = fDateStr;
+    }
+    
+    //Clear Search=============================================================
+    clearSearchClicked()
+    {   
+        console.log('Clear Start');        
+            
+        this.template.querySelector("lightning-combobox[data-in-id=clearanceCMB]").value = "";
+        this.template.querySelector("lightning-combobox[data-in-id=certificationCMB]").value = "";
+        this.template.querySelector("lightning-combobox[data-in-id=roleCMB]").value = "";
+        this.template.querySelector("lightning-input[data-in-id=startDatePKR]").value = "";
+
+        this.clearanceValue = "";   
+        this.certificationValue="";  
+        this.roleValue = "";
+        this.startDateValue="";
+        this.returnedAssignments = [];
+        this.recordCount = 0;
+
+        console.log('Clear End');       
+    }
+ 
     //Send Search Object To Controller================================================
     enterRS_Clicked(event)
     {
+        //Set JSON Search Values-----------------------------------------------
+        this.assignmentSearchJSON = 
+        {
+            clearanceStr: this.clearanceValue,   
+            certificationStr: this.certificationValue,  
+            roleStr: this.roleValue,
+            startDateStr: this.startDateValue 
+        };
+
+        console.log(
+            ' role = ' + this.assignmentSearchJSON.roleStr +
+            ' certification = ' + this.assignmentSearchJSON.certificationStr +
+            ' clearance = ' + this.assignmentSearchJSON.clearanceStr + 
+            ' start Date =' + this.assignmentSearchJSON.startDateStr
+        );
+
+        console.log('JSON STRING  '+ JSON.stringify(this.assignmentSearchJSON) );
+
+        //Show Spinner=========================================================
+        this.isLoadingAssignments = true;
+
+        //Call AssignmentSearchController======================================
+        getAssignments({ searchJsonStr: JSON.stringify(this.assignmentSearchJSON) })
+        .then(result => 
+        {
+            let curAssignmentsObjArr = [];
+            console.log('Result: ' + JSON.stringify(result));
+            
+            //get each result--------------------------------------------------
+            for(let cResult of result)
+            {
+                curAssignmentsObjArr.push(
+                {
+                    "AssignmentName" : cResult.Name,
+                    "AssignmentUrl" : "/lightning/r/"+ cResult.Id + "/view",
+                    "ProjectName" : cResult.Project_CGS__r.Name,
+                    "Role" : cResult.Project_Role__c,
+                    "Manager" : cResult.Project_Manager__c,
+                    "StartDate" : cResult.Start_Date_on_Project__c
+                });
+            }
+
+            this.returnedAssignments = curAssignmentsObjArr;
+            this.error = undefined;
+            this.recordCount = curAssignmentsObjArr.length;
+
+            this.isLoadingAssignments = false;
+        })
+        .catch((error)=>
+        {
+            this.isLoadingAssignments = false;
+            this.error = error;
+            console.log('Error: ' + this.error);
+        });
 
     }
-
-     //Clear Search=============================================================
-     clearSearchClicked()
-     {   
-         console.log('Clear Start');        
-                
-         this.template.querySelector("lightning-combobox[data-in-id=clearanceCMB]").value = "";
-         this.template.querySelector("lightning-combobox[data-in-id=certificationCMB]").value = "";
-         this.template.querySelector("lightning-combobox[data-in-id=roleCMB]").value = "";
-         this.template.querySelector("lightning-input[data-in-id=startDatePKR]").value = "";
- 
-
-         this.clearanceValue = "";   
-         this.certificationValue="";  
-         this.roleValue = "";
-         this.startDateValue="";
- 
-         console.log('Clear End');       
-     }
- 
 
 
     //#########################################################################

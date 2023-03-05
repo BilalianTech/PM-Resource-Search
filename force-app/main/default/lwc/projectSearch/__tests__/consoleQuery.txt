@@ -1,0 +1,19 @@
+SELECT  
+ Name, 
+ Start_Date_on_Project__c , 
+  
+ Project_Role__c, 
+ Project_Manager__c,
+
+ Project_CGS__r.Name,
+ Resource__r.Name  
+
+FROM 
+ Project_Assignment__c 
+
+WHERE
+ 
+ (Resource__r.Name = '')
+
+//=============================================================================
+ 

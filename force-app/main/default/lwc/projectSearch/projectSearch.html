@@ -71,7 +71,8 @@
                         <lightning-input type="date"
                                         data-in-id="startDatePKR"
                                         name="startDate" 
-                                        label="Enter Start Date"
+                                        label="Start Date"
+                                        date-style="short"
                                         onchange={startDateChange} ></lightning-input>            
                         <p>Start Date: {startDateValue}</p>
                     </div>
@@ -100,13 +101,13 @@
             
             <!--DATA TABLE-->
             <lightning-layout-item size="12" style="padding: 30px; ">
-                <template lwc:if={rProjectAssignment}>
+                <template lwc:if={returnedAssignments}>
                     <span>Records {recordCount}</span>
 
                     <!-- sldsValidatorIgnoreNextLine -->                        
                     <lightning-datatable
                         key-field="id"
-                        data={rProjectAssignment}
+                        data={returnedAssignments}
                         show-row-number-column
                         row-number-offset={rowOffset}
                         hide-checkbox-column

@@ -153,6 +153,8 @@ export default class ResourceSearch extends LightningElement
         this.clearanceValue = "";   
         this.certificationValue="";    
         this.skillsValue="";
+        this.returnedResources = [];
+        this.recordCount = 0;
 
         console.log('Clear End');       
     }
@@ -160,6 +162,7 @@ export default class ResourceSearch extends LightningElement
     //Send Search Object To Controller=========================================
     enterRS_Clicked(event)
     {
+        //Set JSON Search Values-----------------------------------------------
         this.resourceSearchJSON = 
         {
             clearanceStr: this.clearanceValue,   
@@ -174,6 +177,9 @@ export default class ResourceSearch extends LightningElement
         ' skills = ' + this.resourceSearchJSON.skillsStr + 
         ' availability = ' + this.resourceSearchJSON.availableBool        
         );
+
+        console.log('JSON STRING  '+ JSON.stringify(this.resourceSearchJSON) );
+
 
         //Show Spinner=========================================================
         this.isLoadingResources = true;
@@ -198,6 +204,7 @@ export default class ResourceSearch extends LightningElement
             //SetUp Clearance--------------------------------------------------
             const clearanceC = curClearanceTxt +"__c";
 
+            //get each result--------------------------------------------------
             for(let cResult of result)
             {
                 curWorkInfoObjArr.push({

@@ -18,12 +18,13 @@ public with sharing class ResourceSearchController
             String certificationStr = resourceSearchObj.certificationStr;
             String skillsStr = resourceSearchObj.skillsStr;            
             
+            //Check for Available----------------------------------------------
             if(availableBool == true)
             {
                 //getResourceQueryStr
                 //string clearType, Boolean availableBool, Boolean andCertBool,
                 //string certName, Boolean andSkillsBool, string skillsName                
-                //Availabile SECTION@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
+                //Available SECTION@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
                 if((clearanceStr != '') && (certificationStr != '') && (skillsStr != ''))
                 { 
                     cWorkInfoList = ResourceSearchController.getResourceQueryStr(clearanceStr,true,true,certificationStr,true,skillsStr);                                    
@@ -297,7 +298,7 @@ public with sharing class ResourceSearchController
         }        
     }
 
-    //Opportunity Search JSON CLASS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //Resource Search JSON CLASS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     public class ResourceSearchJSON
     {
         public Boolean availableBool;
@@ -305,6 +306,6 @@ public with sharing class ResourceSearchController
         public String certificationStr;
         public String skillsStr;
     }
-    //Search Opportunity Controller############################################ 
 
+    //Search Opportunity Controller############################################
 }
