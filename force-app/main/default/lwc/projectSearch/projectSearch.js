@@ -223,7 +223,6 @@ export default class ProjectSearch extends LightningElement
             this.returnedAssignments = curAssignmentsObjArr;
             this.error = undefined;
             this.recordCount = curAssignmentsObjArr.length;
-
             this.isLoadingAssignments = false;
         })
         .catch((error)=>
