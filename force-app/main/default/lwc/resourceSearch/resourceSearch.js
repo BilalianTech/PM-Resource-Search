@@ -1,4 +1,4 @@
-import { LightningElement, api, wire, track } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import CERTIFICATION_FIELD from '@salesforce/schema/Project_Assignment__c.Certifications__c';
@@ -21,6 +21,7 @@ export default class ResourceSearch extends LightningElement
 
     returnedResources;
     isLoadingResources = false;
+    pickDefaultRecId = '012000000000000AAA';
     
     //TABLE COLUMS=============================================================
     columns = [
@@ -55,7 +56,7 @@ export default class ResourceSearch extends LightningElement
     ];
 
     //PICKLISTVALUES====================================================
-    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: CERTIFICATION_FIELD })    
+    @wire(getPicklistValues, { recordTypeId: pickDefaultRecId, fieldApiName: CERTIFICATION_FIELD })    
     certificationPicklistValue({ error, data })
     {
         //Get data from Picklist----------------------------------------------
@@ -85,7 +86,7 @@ export default class ResourceSearch extends LightningElement
     }
     
     //PICKLISTVALUES====================================================
-    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: SKILL_SET_FIELD })    
+    @wire(getPicklistValues, { recordTypeId: pickDefaultRecId, fieldApiName: SKILL_SET_FIELD })    
     skillsPicklistValue({ error, data })
     {
         //Get data from Picklist----------------------------------------------
@@ -179,7 +180,6 @@ export default class ResourceSearch extends LightningElement
         );
 
         console.log('JSON STRING  '+ JSON.stringify(this.resourceSearchJSON) );
-
 
         //Show Spinner=========================================================
         this.isLoadingResources = true;

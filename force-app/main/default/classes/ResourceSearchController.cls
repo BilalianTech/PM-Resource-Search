@@ -1,5 +1,9 @@
 public with sharing class ResourceSearchController 
 {
+
+    private static String rResourceStr;
+    private static Integer whereIn = 1;    
+
     @AuraEnabled
     public static List<sObject> getResources(string searchObjStr)
     {
@@ -7,9 +11,10 @@ public with sharing class ResourceSearchController
         {
             /*List<sObject>*/
             //Main Var-------------------------------------------------------
-            String selectStr;
-            selectStr = 'SELECT Name, Email__c , Availability_Status__c, Available_for_Assignment__c ';
-            List<sObject> cWorkInfoList;           
+            //String selectStr;
+            //selectStr = 'SELECT Name, Email__c , Availability_Status__c, Available_for_Assignment__c ';
+            List<sObject> cWorkInfoList;  
+               
 
             //Parse Object---------------------------------------------------
             ResourceSearchJSON resourceSearchObj = (ResourceSearchJSON) JSON.deserialize(searchObjStr, ResourceSearchJSON.class);
@@ -119,7 +124,7 @@ public with sharing class ResourceSearchController
     )
     {
         List<sObject> cResourceList; 
-        String rResourceStr = 'SELECT Name, Id, Email__c, Available_for_Assignment__c ';
+        rResourceStr = 'SELECT Name, Id, Email__c, Available_for_Assignment__c ';
 
         try
         {
@@ -143,7 +148,7 @@ public with sharing class ResourceSearchController
 
             //Check For Clearance Type Set WHERE-------------------------------
             string noneValue = 'None'; 
-            Integer whereIn = 1;
+            //Integer whereIn = 1;
             switch on clearType 
             {
                 when 'CFPB' 
@@ -244,46 +249,21 @@ public with sharing class ResourceSearchController
             //Check for Cert---------------------------------------------------
             if(andCertBool == true)
             {
-                if(whereIn == 0)
-                {
-                    rResourceStr =  rResourceStr + ' WHERE ';
-                    whereIn = 1;
-                }
-                else 
-                {
-                    rResourceStr =  rResourceStr + ' AND ';
-                }   
-                             
+                setWhereOrAnd();                             
                 rResourceStr =  rResourceStr + 'ID IN ( SELECT Certified_Individual__c FROM CGS_Employee_Certification__c where Certification_Name__c = :certName)';
             }
 
             //Check for Skills---------------------------------------------------
             if(andSkillsBool == true)
             {
-                if(whereIn == 0)
-                {
-                    rResourceStr =  rResourceStr + ' WHERE ';
-                    whereIn = 1;
-                }
-                else 
-                {
-                    rResourceStr =  rResourceStr + ' AND ';
-                }                
+                setWhereOrAnd();            
                 rResourceStr =  rResourceStr + 'ID IN ( SELECT Skilled_Individual__c FROM Employee_Skills__c where Concentration__c = :skillsName)';
             }
 
             //Check for Available------------------------------------------------
             if(availableBool == true)
             {
-                if(whereIn == 0)
-                {
-                    rResourceStr =  rResourceStr + ' WHERE ';
-                    whereIn = 1;
-                }
-                else 
-                {
-                    rResourceStr =  rResourceStr + ' AND ';
-                }                
+                setWhereOrAnd();                
                 rResourceStr =  rResourceStr + ' Available_for_Assignment__c = true';
             }
             
@@ -296,6 +276,20 @@ public with sharing class ResourceSearchController
             System.debug('An Exception: ' + e);
             throw new AuraHandledException(e.getMessage());
         }        
+    }
+
+    //=========================================================================
+    public static void setWhereOrAnd()
+    {
+        if(whereIn == 0)
+        {
+            rResourceStr =  rResourceStr + ' WHERE ';
+            whereIn = 1;
+        }
+        else 
+        {
+            rResourceStr =  rResourceStr + ' AND ';
+        }   
     }
 
     //Resource Search JSON CLASS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

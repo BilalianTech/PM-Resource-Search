@@ -24,6 +24,8 @@ export default class ProjectSearch extends LightningElement
     isLoadingAssignments = false;
     recordCount = 0;
 
+    pickDefaultRecId = '012000000000000AAA';
+
     //TABLE COLUMS=============================================================
     columns = [
         { label: 'ASSIGNMENT #', fieldName: 'AssignmentUrl', type: 'url', 
@@ -36,7 +38,7 @@ export default class ProjectSearch extends LightningElement
     ];
 
     //PICKLISTVALUES====================================================
-    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: CERTIFICATION_FIELD })    
+    @wire(getPicklistValues, { recordTypeId: pickDefaultRecId, fieldApiName: CERTIFICATION_FIELD })    
     certificationPicklistValue({ error, data })
     {
         //Get data from Picklist----------------------------------------------
@@ -66,7 +68,7 @@ export default class ProjectSearch extends LightningElement
     }
 
     //PICKLISTVALUES====================================================
-    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: ROLES_FIELD })    
+    @wire(getPicklistValues, { recordTypeId: pickDefaultRecId, fieldApiName: ROLES_FIELD })    
     rolePicklistValue({ error, data })
     {
         //Get data from Picklist----------------------------------------------
@@ -96,7 +98,7 @@ export default class ProjectSearch extends LightningElement
     }
 
     //PICKLISTVALUES====================================================
-    @wire(getPicklistValues, { recordTypeId: '012000000000000AAA', fieldApiName: CLEARANCE_AUTHORITY_FIELD })    
+    @wire(getPicklistValues, { recordTypeId: pickDefaultRecId, fieldApiName: CLEARANCE_AUTHORITY_FIELD })    
     clearancePicklistValue({ error, data })
     {
         //Get data from Picklist----------------------------------------------
