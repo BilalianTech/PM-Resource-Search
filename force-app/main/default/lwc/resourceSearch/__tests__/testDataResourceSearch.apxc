@@ -1,0 +1,170 @@
+@isTest
+public class testDataResourceSearch 
+{
+	public static List<Project_Assignment__c> createTestProAssign()
+    {
+        List<Project_Assignment__c> pAssignObj = new List<Project_Assignment__c>();
+        
+        
+        return pAssignObj;
+    }
+    
+    public static void generateTestWorkInfo()
+    {
+        //User Names===============================
+        String[] userArr = new String[]{'Joe Brown',
+            'Don Red','Kim Black','Jim White','John Green', 
+            'Bo Run','Hank Bat','Johnson Drive','Mike Shoot',
+            'Jesse Jump'};
+        
+        //Clearance=================================
+        String[] clearArr = new String[]{'None','Public Trust - Tier 1'};
+        
+        //Certs======================================
+        String[] certsName = new String[]{'Salesforce Certified Administrator','AWS Certified Cloud Practitioner'};
+        String[] certsAuthor = new String[]{'Salesforce','Amazon'};
+        String[] certsId = new String[]{'1234','5678','9012','3456','7890'};   
+            
+        //Skills======================================
+        String[] skillsConcent = new String[]{'HTML','Agile - Scrum'};
+        String[] skillsFocus = new String[]{'Programming','Project Management'};
+        String[] skillsRole = new String[]{'Development','Administration'};        
+        String[] skillsLevel = new String[]{'Entry Level','Mid Level'};        
+            
+        //Work Info===================================================================================
+        List<Work_Info__c> workInfoList = new List<Work_Info__c>();
+        Boolean clearOn = false;
+        
+        //Setup Name and Clearance--------------------------------------------------------------------
+        for(Integer i=0; i < 10; i++)
+        {
+            Work_Info__c workInfoObj = new Work_Info__c();
+        	workInfoObj.Name = userArr[i];
+            
+            if(clearOn == false)
+            {
+               	//Clearance To None 
+               	workInfoObj.GSA__c = clearArr[0]; 
+                workInfoObj.CFPB__c = clearArr[0]; 
+                workInfoObj.DHS__c = clearArr[0];
+                workInfoObj.DOC__c = clearArr[0];
+                workInfoObj.DOD__c = clearArr[0];
+                workInfoObj.DOE__c = clearArr[0];
+                workInfoObj.DOJ__c = clearArr[0];
+                workInfoObj.FDA__c = clearArr[0];
+                workInfoObj.FDIC__c = clearArr[0];
+                workInfoObj.HHS__c = clearArr[0];
+                workInfoObj.IRS__c = clearArr[0];
+                workInfoObj.NARA__c = clearArr[0];
+                workInfoObj.SBA__c = clearArr[0];
+                workInfoObj.SEC__c = clearArr[0];
+                workInfoObj.USAGM__c = clearArr[0];
+                workInfoObj.USDA__c = clearArr[0];
+                workInfoObj.VA__c = clearArr[0];
+                
+               	clearOn = true;
+            }
+            else
+            {
+              	//Clearance To Public Trust - Tier 1-------------------  
+              	workInfoObj.GSA__c = clearArr[1];
+                workInfoObj.CFPB__c = clearArr[1];
+                workInfoObj.DHS__c = clearArr[1];
+                workInfoObj.DOC__c = clearArr[1];
+                workInfoObj.DOD__c = clearArr[1];
+                workInfoObj.DOE__c = clearArr[1];
+                workInfoObj.DOJ__c = clearArr[1];
+                workInfoObj.FDA__c = clearArr[1];
+                workInfoObj.FDIC__c = clearArr[1];
+                workInfoObj.HHS__c = clearArr[1];
+                workInfoObj.IRS__c = clearArr[1];
+                workInfoObj.NARA__c = clearArr[1];
+                workInfoObj.SBA__c = clearArr[1];
+                workInfoObj.SEC__c = clearArr[1];
+                workInfoObj.USAGM__c = clearArr[1];
+                workInfoObj.USDA__c = clearArr[1];
+                workInfoObj.VA__c = clearArr[1];
+                
+              	clearOn = false;
+            }     
+            
+            workInfoList.add(workInfoObj);
+        }
+        
+        insert workInfoList;         
+		
+        //Certifications==============================================================================
+        List<CGS_Employee_Certification__c> certList = new List<CGS_Employee_Certification__c>();        
+        Boolean salesOn = true;
+        
+        for(Integer i=0; i<10 ; i++)
+        {
+            CGS_Employee_Certification__c empCertObj = new CGS_Employee_Certification__c();
+            
+            if(salesOn == true)
+            {
+                empCertObj.Certification_Name__c = certsName[1];
+        		empCertObj.Issuing_Authority__c = certsAuthor[1];
+        		salesOn = false;
+            }
+            else
+            {
+                empCertObj.Certification_Name__c = certsName[0];
+        		empCertObj.Issuing_Authority__c = certsAuthor[0];
+        		salesOn = true;
+            }
+            
+            empCertObj.Certified_Individual__c = workInfoList[i].id;
+        	empCertObj.Date_Issued__c = Date.today();
+        	empCertObj.Certication_ID__c = 'CertNum' + (100 + i);
+            certList.add(empCertObj);
+        } 
+                
+        insert certList;		
+        
+        //Skills==================================================================================
+        List<Employee_Skills__c> skillsList = new List<Employee_Skills__c>();  
+        Boolean programOn = true;
+        
+        for(Integer i=9; i >-1; i--)
+        {
+            Employee_Skills__c empSkillsObj = new Employee_Skills__c();
+            if(programOn == true)
+            {
+                empSkillsObj.Concentration__c = skillsConcent[1];
+                empSkillsObj.Focus_Area__c = skillsFocus[1]; 
+                empSkillsObj.Role__c = skillsRole[1];
+                empSkillsObj.Skill_Level__c = skillsLevel[1];
+                programOn = false;
+            }
+            else
+            {
+                empSkillsObj.Focus_Area__c = skillsFocus[0]; 
+                empSkillsObj.Concentration__c = skillsConcent[0];
+                empSkillsObj.Role__c = skillsRole[0];
+                empSkillsObj.Skill_Level__c = skillsLevel[0];
+                programOn = true;
+            }
+            
+            empSkillsObj.Display_on_Resume__c = 'Yes';
+            empSkillsObj.Skilled_Individual__c = workInfoList[i].id;  
+            skillsList.add(empSkillsObj);
+        }
+        
+        insert skillsList;        
+        
+        //Update FTE==================================================================================
+        workInfoList = [Select Name, Id, FTE_Total__c, Available_for_Assignment__c FROM Work_Info__c LIMIT 5];
+        for(Integer i=0; i < 5; i++)
+        {
+            workInfoList[i].FTE_Total__c = 100;
+            System.debug('Name: ' + workInfoList[i].Name + ' Id: ' + 
+                         workInfoList[i].Id + ' FTE: ' + workInfoList[i].FTE_Total__c + 
+                         ' Available: ' + workInfoList[i].Available_for_Assignment__c );
+        }
+        update workInfoList;
+        
+    }
+    
+    
+}

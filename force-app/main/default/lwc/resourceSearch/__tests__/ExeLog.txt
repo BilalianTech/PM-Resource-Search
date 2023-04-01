@@ -1,0 +1,50 @@
+11:27:06:454 USER_DEBUG [155]|DEBUG| Size = 3 
+Resource = 
+(
+    Work_Info__c:
+    {
+        Name=Bo Run, 
+        Id=a0H3C000006gi5dUAA, 
+        Email__c=bilal.shabazz@capgemini-gs.com, 
+        Available_for_Assignment__c=true, VA__c=Public Trust - Tier 1
+    }, 
+    Work_Info__c:
+    {
+        Name=Johnson Drive, 
+        Id=a0H3C000006gi5fUAA, 
+        Email__c=bilal.shabazz@capgemini-gs.com, 
+        Available_for_Assignment__c=true, VA__c=Public Trust - Tier 1
+    }, 
+    Work_Info__c:
+    {
+        Name=Jesse Jump, 
+        Id=a0H3C000006gi5hUAA, 
+        Email__c=bilal.shabazz@capgemini-gs.com, 
+        Available_for_Assignment__c=true, 
+        VA__c=Public Trust - Tier 1
+    }
+)
+
+
+
+12:04:32:266 USER_DEBUG [122]|DEBUG|Cert: 
+(CGS_Employee_Certification__c:
+{Certification_Name__c=Salesforce Certified Administrator, 
+Issuing_Authority__c=Salesforce, 
+Certified_Individual__c=a0H3C000006gi70UAA, 
+Date_Issued__c=2023-04-01 00:00:00, Certication_ID__c=CertNum100}, 
+CGS_Employee_Certification__c:
+{Certification_Name__c=AWS Certified Cloud Practitioner, 
+Issuing_Authority__c=Amazon, 
+Certified_Individual__c=a0H3C000006gi71UAA, 
+Date_Issued__c=2023-04-01 00:00:00, 
+Certication_ID__c=CertNum101}, 
+CGS_Employee_Certification__c:{Ce
+
+
+
+
+
+
+
+

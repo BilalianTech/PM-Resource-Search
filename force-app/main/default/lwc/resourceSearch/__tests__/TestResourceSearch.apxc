@@ -1,0 +1,359 @@
+@isTest
+public class TestResourceSearch 
+{
+    //Main Method getResources===============================
+    //availableBool == true==============
+    //clearanceStr
+    //certificationStr
+    //skillsStr
+    //
+    //{"clearanceStr":"","certificationStr":"","skillsStr":"","availableBool":true}
+    //=========================================================
+	@isTest public static void testGetResources()
+    {
+        //Generate Test Data===========================================================
+        testDataResourceSearch.generateTestWorkInfo();
+        
+        //Test All Available====Default GSA============================================
+        String testJsonStr = '{"clearanceStr":"","certificationStr":"","skillsStr":"","availableBool":true}';        
+        List<sObject> rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Resources = ' + rResources.size());
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources Available');
+        
+        
+        //Test All true or false Available=======================================================
+        testJsonStr = '{"clearanceStr":"","certificationStr":"","skillsStr":"","availableBool":false}';        
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Resources = ' + rResources.size());        
+        System.assertEquals(10, rResources.size(), 'Was expecting to find 10 Resources Available is Off');
+        
+        //Test CFPB========================================================
+        testJsonStr = '{"clearanceStr":"CFPB","certificationStr":"","skillsStr":"","availableBool":true}';        
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test DHS========================================================
+        testJsonStr = '{"clearanceStr":"DHS","certificationStr":"","skillsStr":"","availableBool":true}';        
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test DOC========================================================
+        testJsonStr = '{"clearanceStr":"DOC","certificationStr":"","skillsStr":"","availableBool":true}';        
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');       
+        
+        //Test DOE========================================================
+        testJsonStr = '{"clearanceStr":"DOE","certificationStr":"","skillsStr":"","availableBool":true}';        
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test DOD========================================================
+        testJsonStr = '{"clearanceStr":"DOD","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test DOJ========================================================
+        testJsonStr = '{"clearanceStr":"DOJ","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test FDA========================================================
+        testJsonStr = '{"clearanceStr":"FDA","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test FDIC========================================================
+        testJsonStr = '{"clearanceStr":"FDIC","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test GSA========================================================
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"","skillsStr":"","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+		
+        //Test HHS========================================================
+        testJsonStr = '{"clearanceStr":"HHS","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test IRS========================================================
+        testJsonStr = '{"clearanceStr":"IRS","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test NARA========================================================
+        testJsonStr = '{"clearanceStr":"NARA","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test SBA========================================================
+        testJsonStr = '{"clearanceStr":"SBA","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test SEC========================================================
+        testJsonStr = '{"clearanceStr":"SEC","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test USAGM========================================================
+        testJsonStr = '{"clearanceStr":"USAGM","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test USDA========================================================
+        testJsonStr = '{"clearanceStr":"USDA","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //Test VA========================================================
+        testJsonStr = '{"clearanceStr":"VA","certificationStr":"","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        //##########################################################################################
+        //'Salesforce Certified Administrator','AWS Certified Cloud Practitioner'
+        //Test GSA==AWS Certified Cloud Practitioner================================================
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"Salesforce Certified Administrator","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"Salesforce Certified Administrator","skillsStr":"","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);         
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+		
+        //Test GSA==AWS Certified Cloud Practitioner====Agile - Scrum====================================
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"Salesforce Certified Administrator","skillsStr":"Agile - Scrum","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"Salesforce Certified Administrator","skillsStr":"Agile - Scrum","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+        
+        //Test ==AWS Certified Cloud Practitioner====Agile - Scrum====================================
+        testJsonStr = '{"clearanceStr":"","certificationStr":"Salesforce Certified Administrator","skillsStr":"Agile - Scrum","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+
+        //Test ======Agile - Scrum====================================
+        testJsonStr = '{"clearanceStr":"","certificationStr":"","skillsStr":"Agile - Scrum","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+
+        //Test GSA======Agile - Scrum====================================
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"","skillsStr":"Agile - Scrum","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"GSA","certificationStr":"","skillsStr":"Agile - Scrum","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+        
+        //Test ======Agile - Scrum====================================
+        testJsonStr = '{"clearanceStr":"","certificationStr":"Salesforce Certified Administrator","skillsStr":"Agile - Scrum","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"","certificationStr":"Salesforce Certified Administrator","skillsStr":"Agile - Scrum","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+        
+        //Test ======Agile - Scrum====================================
+        testJsonStr = '{"clearanceStr":"","certificationStr":"","skillsStr":"Agile - Scrum","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"","certificationStr":"","skillsStr":"Agile - Scrum","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+        
+        //Test ===certificationStr=================================
+        testJsonStr = '{"clearanceStr":"","certificationStr":"Salesforce Certified Administrator","skillsStr":"","availableBool":true}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(3, rResources.size(), 'Was expecting to find 3 Resources ');
+        
+        testJsonStr = '{"clearanceStr":"","certificationStr":"Salesforce Certified Administrator","skillsStr":"","availableBool":false}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Size = ' + rResources.size() + ' Resource = ' + rResources[0] ); 
+        System.assertEquals(5, rResources.size(), 'Was expecting to find 5 Resources ');
+        
+        System.debug('=========================================');
+        System.debug('=========================================');
+        System.debug('=========================================');
+        System.debug('=========================================');
+        System.debug('=========================================');
+        System.debug('=========================================');
+        
+        //ERROR=================================
+        //
+        /*
+        testJsonStr = '{"clearanceStr":"","certificationStr":"AWS Certified Cloud Practitioner","skillsStr":"","availableBool":"true"}';
+        rResources = new List<sObject>();
+        rResources = ResourceSearchController.getResources(testJsonStr);
+        System.debug(' Resources = ' + rResources.size());
+        */
+        
+        
+    }
+    
+    
+    //===========================================================
+    //test testDataResourceSearch
+    //===========================================================
+    @isTest public static void testGenerateTestWorkInfo()
+    {
+        List<Work_Info__c> workInfoList;
+        List<CGS_Employee_Certification__c> certList;
+        List<Employee_Skills__c> skillsList;
+        
+        testDataResourceSearch.generateTestWorkInfo();
+        
+        Test.startTest();
+        	//Work Info------------------------------------------------------
+        	workInfoList = [SELECT Id, Name, GSA__c, Email__c, Available_for_Assignment__c FROM Work_Info__c];
+        	System.debug('Test Work Info Size: ' + workInfoList.size());
+        	
+            for(Integer i=0; i < workInfoList.size(); i++)
+            {
+                System.debug('Name: ' + workInfoList[i].Name + 
+                             ' Available: ' + workInfoList[i].Available_for_Assignment__c +
+                             ' Clearance: ' + workInfoList[i].GSA__c);
+                
+            }
+        
+        	//Cert----------------------------------------------------------
+        	certList = [SELECT Id, Name, Certification_Name__c, Certified_Individual__c FROM CGS_Employee_Certification__c];
+        	System.debug('Test certList Size: ' + certList.size());
+        
+			for(Integer i=0; i < certList.size(); i++)
+            {
+                System.debug('Name: ' + certList[i].Name + 
+                             ' Cert: ' + certList[i].Certification_Name__c +
+                             ' Id: ' + certList[i].Id +
+                             ' Individual: ' + certList[i].Certified_Individual__c);
+                
+            } 
+        
+        	//Skills-------------------------------------------------
+          	skillsList = [SELECT Name, Skilled_Individual__c, Concentration__c, 
+                          	Focus_Area__c, Role__c,  Skill_Level__c 
+							FROM Employee_Skills__c];
+        
+        	System.debug('Test skillsList Size: ' + skillsList.size());
+        
+        	for(Integer i=0; i < skillsList.size(); i++)
+            {
+                System.debug('Name: ' + skillsList[i].Name + 
+                             ' Role: ' + skillsList[i].Role__c +
+                             ' Concentration: ' + skillsList[i].Concentration__c +
+                             ' Focus: ' + skillsList[i].Focus_Area__c +                             
+                             ' Level: ' + skillsList[i].Skill_Level__c +
+                             ' Individual: ' + skillsList[i].Skilled_Individual__c);
+            } 
+        
+        
+        Test.stopTest();
+        
+    }
+    
+    
+    
+    //Sub Method getResourceQueryStr==========================================
+    //After the Logic runs to create the string
+    //Method calls the Database Query Method
+    //string clearType, Boolean availableBool, Boolean andCertBool,
+    //string certName, Boolean andSkillsBool, string skillsName
+    //========================================================================
+    ///
+    /*
+    @isTest public static void testGetResourceQueryStr()
+    {        
+        List<sObject> rResources = new List<sObject>();
+        string clearType = '';
+        Boolean availableBool = true;
+        Boolean andCertBool = false;
+        string certName = '';
+        Boolean andSkillsBool = false;
+        string skillsName = '';
+        
+		rResources = ResourceSearchController.getResourceQueryStr(clearType, availableBool, andCertBool, certName, andSkillsBool, skillsName );        
+        
+        
+        System.debug(' Resources = ' + rResources);
+    }
+    */
+    
+    
+    
+}

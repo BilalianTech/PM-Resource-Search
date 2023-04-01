@@ -14,12 +14,12 @@ SELECT Name, Email__c , Availability_Status__c, Available_for_Assignment__c,
 FROM Work_Info__c 
 
 //============================================================================
-
+0053t00000BBSlyAAH
 
 SELECT Name, Capability_CGS__c, Career_Track_CGS__c, CompanyName, Username
 FROM User WHERE Name = 'Bilal Shabazz'
 
-SELECT Name, Certification_Name__c, Certified_Individual__c
+SELECT Name, Certification_Name__c, Certified_Individual__c, Certification_CGS__c
 FROM CGS_Employee_Certification__c
 
 //============================================================================
@@ -38,6 +38,12 @@ SELECT Name,
     WHERE Certification_Name__c = 'Lightning Implementation Specialist'
 ) 
 FROM Work_Info__c
+
+//=============================================================================
+SELECT Name, Certification_Name__c, Certified_Individual__c, Certification_CGS__c
+FROM CGS_Employee_Certification__c
+WHERE
+Certification_Name__c = 'Salesforce Certified Administrator'
 
 //=============================================================================
 SELECT Name, Skilled_Individual__c, Concentration__c FROM Employee_Skills__c 
@@ -105,3 +111,11 @@ AND ID IN (
     SELECT Certified_Individual__c 
     FROM CGS_Employee_Certification__c 
     where Certification_Name__c ='Salesforce Certified Administrator')
+
+//=============================================================================
+Select Name, Id, Email__c, Available_for_Assignment__c, GSA__c
+FROM Work_Info__c
+WHERE
+Available_for_Assignment__c = true
+AND
+GSA__c != 'None'
